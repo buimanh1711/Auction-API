@@ -1,19 +1,19 @@
 const ProductModel = require('../../models/product')
 const CategoryModel = require('../../models/category')
 
-getById = (req, res, next) => {
+const getById = (req, res, next) => {
   const { productId } = req.params
   const { userInfo } = req
 
   ProductModel.findOne({ _id: productId })
       .populate('category')
-      .populate('author', 'firstName lastName _id image role')
+      .populate('seller', 'firstName lastName _id image role')
       .then(resData => {
           if (resData) {
-              if (userInfo._id == resData.author._id) {
+              if (userInfo._id == resData.seller._id) {
                   res.json({
                       status: true,
-                      post: resData
+                      product: resData
                   })
               } else {
                   req.err = 'not permissed'

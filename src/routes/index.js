@@ -3,9 +3,9 @@ const productRouter = require('./product')
 const RegisterRouter = require('./register')
 const LoginRouter = require('./login')
 // const meRouter = require('./me')
-// const authRouter = require('./auth')
+const authRouter = require('./auth')
 // const searchRouter = require('./search')
-// const categoryRouter = require('./category')
+const categoryRouter = require('./category')
 
 const route = (app) => {
     // app.use('/api/site', siteRouter)
@@ -13,9 +13,9 @@ const route = (app) => {
     app.use('/api/register', RegisterRouter)
     app.use('/api/login', LoginRouter)
     // app.use('/api/me', meRouter)
-    // app.use('/api/auth', authRouter)
+    app.use('/api/auth', authRouter)
     // app.use('/api/search', searchRouter)
-    // app.use('/api/categories', categoryRouter)
+    app.use('/api/categories', categoryRouter)
 }
 
 module.exports = route

@@ -10,14 +10,16 @@ create = (req, res, next) => {
   
   const { _path, categoryId, userInfo } = req
   const newProduct = {
-      title: data.title,
-      description: data.shortDesc,
+      name: data.name,
       content: data.content,
       image: _path,
-      author: userInfo._id,
+      time: data.time,
+      minPrice: data.minPrice,
+      quickPrice: data.quickPrice,
+      producer: data.producer,
+      seller: userInfo._id,
       slug: data.slug,
       category: categoryId,
-      source: data.source
   }
 
   ProductModel.findOne({ slug: newProduct.slug })
