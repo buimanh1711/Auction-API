@@ -4,7 +4,8 @@ const RegisterRouter = require('./register')
 const LoginRouter = require('./login')
 // const meRouter = require('./me')
 const authRouter = require('./auth')
-// const searchRouter = require('./search')
+const profileRouter = require('./profile')
+const userRouter = require('./user')
 const categoryRouter = require('./category')
 
 const route = (app) => {
@@ -14,7 +15,8 @@ const route = (app) => {
     app.use('/api/login', LoginRouter)
     // app.use('/api/me', meRouter)
     app.use('/api/auth', authRouter)
-    // app.use('/api/search', searchRouter)
+    app.use('/api/user', userRouter)
+    app.use('/api/profile', profileRouter)
     app.use('/api/categories', categoryRouter)
 }
 

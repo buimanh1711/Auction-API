@@ -1,9 +1,12 @@
 const jwt = require('jsonwebtoken')
 const AccountModel = require('../../models/account')
+const toSlug = require('../../utils/toSlug')
 
 const register = (req, res, next) => {
   const data = req.body
-
+  const slug = toSlug(`${data.firstName} ${data.lastName}`)
+  data.slug = slug
+  
   AccountModel.findOne({ username: data.username })
     .then(resData => {
       if (!resData) {

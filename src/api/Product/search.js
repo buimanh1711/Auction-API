@@ -1,7 +1,9 @@
-const AccountModel = require('../../models/account')
+const ProductModel = require('../../models/product')
 
 const search = (req, res, next) => {
-  AccountModel.find({})
+  ProductModel.find({})
+    .populate('category')
+    .populate('seller', 'firstName lastName _id image role')
     .then(data => {
       if (data && data.length > 0) {
         let afterFilter = data
@@ -35,7 +37,7 @@ const search = (req, res, next) => {
 
         res.json({
           status: true,
-          users: result
+          products: result
         })
       }
     })

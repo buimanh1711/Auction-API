@@ -13,13 +13,12 @@ const login = (req, res, next) => {
       if (resData) {
         const { _id, username, password, role } = resData
         const token = jwt.sign({_id, username, password, role}, 'mb1o4er')
+        const userData = resData
 
         res.json({
           status: true,
-          user: {
-            ...resData,
-            token
-          }
+          user: userData,
+          token: token
         })
       } else {
         req.err = 'Account is not true!'

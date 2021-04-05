@@ -5,7 +5,7 @@ const getPage = require('../../utils/getPage')
 const jwt = require('jsonwebtoken')
 const fs = require('fs')
 
-create = (req, res, next) => {
+const create = (req, res, next) => {
   const data = req.body || {}
   
   const { _path, categoryId, userInfo } = req

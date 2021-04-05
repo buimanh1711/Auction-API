@@ -12,8 +12,9 @@ const Account = new Schema({
   image: { type: String, default: 'user_default.jpg'},
   address: { type: String, default: ''},
   phone: { type: String, default: ''},
-  cart: { type: Array, default: []},
-  bought: { type: Array, default: []}
+  playing: { type: Array, default: []},
+  won: { type: Array, default: []},
+  slug: {type: String, minLength: 1}
 })
 
 module.exports = mongoose.model('account', Account)

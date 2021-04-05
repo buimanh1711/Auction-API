@@ -1,10 +1,11 @@
+const ProductModel = require('../../models/product')
 const deleteProduct = (req, res, next) => {
   const { userInfo } = req
-  const { authorId } = req.body
+  const { sellerId } = req.body
   const { productId } = req.params
-
-  if (userInfo._id === authorId) {
-      PostModel.deleteOne({
+  console.log(userInfo)
+  if (userInfo._id === sellerId) {
+      ProductModel.deleteOne({
           _id: productId
       })
           .then(resData => {
@@ -17,6 +18,13 @@ const deleteProduct = (req, res, next) => {
                   next('last')
               }
           })
+          .catch(err => {
+              req.err = 'loi xoa'
+              next('last')
+          })
+  } else {
+      req.err = 'khong the xoa'
+      next('last')
   }
 }
 

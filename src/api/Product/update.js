@@ -1,7 +1,8 @@
 const ProductModel = require('../../models/product')
 const CategoryModel = require('../../models/category')
+const fs = require('fs')
 
-update = (req, res, next) => {
+const update = (req, res, next) => {
   const { userInfo } = req
   const data = req.body || {}
   const { _path, categoryId } = req
