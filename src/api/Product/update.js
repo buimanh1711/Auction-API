@@ -6,7 +6,7 @@ update = (req, res, next) => {
   const data = req.body || {}
   const { _path, categoryId } = req
   const { productId } = req.params
-
+  
   if (userInfo.id !== data.author._id) {
       req.err = 'not permissed'
       return next('last')
