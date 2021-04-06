@@ -18,12 +18,12 @@ const getAll = (req, res, next) => {
   if (sortDate) {
       sort = sortDate
   }
-  if (checkSeller) {
-      query.seller = checkSeller
+  if (seller) {
+      query.seller = seller
       let token = req.cookies.userToken
       if (token) {
           let result = jwt.verify(token, 'mb1o4er')
-          if (result && result._id === checkSeller) {
+          if (result && result._id === seller) {
               isSeller = true
           }
       } else {
@@ -47,11 +47,11 @@ const getAll = (req, res, next) => {
                       if (count) {
                           res.json({
                               status: true,
-                              posts: data,
+                              products: data,
                               isSeller,
                               page: parseInt(page),
                               totalPage: Math.ceil(count / PAGE_SIZE),
-                              totalPost: count
+                              totalProduct: count
                           })
                       } else {
                           req.err = 'loi dem post'

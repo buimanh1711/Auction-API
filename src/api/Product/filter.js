@@ -1,15 +1,15 @@
 const ProductModel = require('../../models/product')
 
 const filter = (req, res, next) => {
-  const { category, producer } = req.query
+  const { category, sortDate } = req.query
 
   const query = {}
 
   if (category) {
     query.category = category
   }
-  if (producer) {
-    query.producer = producer
+  if (sortDate) {
+    query.sort = sortDate
   }
 
   ProductModel.find(query)
@@ -19,7 +19,7 @@ const filter = (req, res, next) => {
       if (resData && resData.length > 0) {
         res.json({
           status: true,
-          relatedPost: resData
+          relatedProducts: resData
         })
       } else {
         req.err = 'khong tim thay post'
