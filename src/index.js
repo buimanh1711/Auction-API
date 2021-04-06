@@ -24,10 +24,9 @@ app.get('/', (req, res) => {
 })
 
 io.on('connection', (socket) => {
-    console.log('hello')
-    socket.on('chat message', data => {
-        console.log(data)
-        socket.emit('rep', 'server is replying')
+    socket.on('sendMessage', data => {
+        console.log(socket.id)
+        socket.emit('receiveMessage', data) 
     })
 })
 

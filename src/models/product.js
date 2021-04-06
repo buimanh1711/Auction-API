@@ -6,6 +6,7 @@ const Product = new Schema({
   image: { type: String, default: '/images/default_img.png'},
   minPrice: { type: Number, default: 1},
   quickPrice: { type: Number, default: 1},
+  priceStep: { type: Number, default: 1000 },
   content: { type: String, maxLength: 600, default: '' },
   time: { type: Date },
   createDate: { type: Date, default: Date.now },

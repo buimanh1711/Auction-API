@@ -9,10 +9,10 @@ const getOne = (req, res, next) => {
           if (resData) {
               res.json({
                   status: true,
-                  post: resData
+                  product: resData
               })
           } else {
-              req.err = 'khong tim thay bai viet'
+              req.err = 'khong tim thay san pham'
               next('last')
           }
       })

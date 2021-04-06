@@ -15,7 +15,7 @@ const route = (app) => {
     app.use('/api/login', LoginRouter)
     // app.use('/api/me', meRouter)
     app.use('/api/auth', authRouter)
-    app.use('/api/user', userRouter)
+    app.use('/api/users', userRouter)
     app.use('/api/profile', profileRouter)
     app.use('/api/categories', categoryRouter)
 }
