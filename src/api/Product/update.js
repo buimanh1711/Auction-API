@@ -20,6 +20,7 @@ const update = (req, res, next) => {
       image: _path || data.image,
       slug: data.slug,
       category: categoryId,
+      priceStep: data.priceStep,
       source: data.source
   }
 
