@@ -7,7 +7,7 @@ const Product = new Schema({
   minPrice: { type: Number, default: 1},
   quickPrice: { type: Number, default: 1},
   priceStep: { type: Number, default: 1000 },
-  content: { type: String, maxLength: 600, default: '' },
+  content: { type: String, default: '' },
   time: { type: Date },
   createDate: { type: Date, default: Date.now },
   seller: { type: String, ref: 'account' },

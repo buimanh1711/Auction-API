@@ -16,6 +16,7 @@ const create = (req, res, next) => {
       time: data.time,
       minPrice: data.minPrice,
       quickPrice: data.quickPrice,
+      priceStep: data.priceStep,
       producer: data.producer,
       seller: userInfo._id,
       slug: data.slug,
@@ -32,6 +33,7 @@ const create = (req, res, next) => {
 
               newProductIns.save(err => {
                   if (err !== null) {
+                      console.log(err)
                       req.err = 'can not save product'
                       return next('last')
                   } else {

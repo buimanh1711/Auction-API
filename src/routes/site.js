@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const controller = require('../controllers/SiteController')
+const getInfo = require('../api/Site/getInfo')
 
 
-router.get('/', controller.index)
+router.get('/', getInfo)
 
 module.exports = router

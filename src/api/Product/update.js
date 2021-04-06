@@ -31,7 +31,7 @@ const update = (req, res, next) => {
   )
       .then(resData => {
           if (resData) {
-              if(data.oldFile && data.oldFile !== _path && data.oldFile !== 'default_image.png' && data.oldFile !== 'user_default.jpg') {
+              if(_path && data.oldFile && data.oldFile !== _path && data.oldFile !== 'default_image.png' && data.oldFile !== 'user_default.jpg') {
                   try {
                       console.log('thanh cong')
                       fs.unlinkSync(`${__dirname}../../../../public/upload/${data.oldFile}`)

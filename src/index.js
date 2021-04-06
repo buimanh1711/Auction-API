@@ -6,7 +6,9 @@ const db = require('./db')
 const middleware = require('./middleware')
 const route = require('./routes')
 const errHandle = require('./middleware/errHandle')
-const auct = require('./api/Product/auct')
+
+const createAuct = require('./api/Product/createAuct')
+
 
 const io = require('socket.io')(http, {
     cors: {
@@ -24,9 +26,24 @@ app.get('/', (req, res) => {
 })
 
 io.on('connection', (socket) => {
-    socket.on('sendMessage', data => {
-        console.log(socket.id)
-        socket.emit('receiveMessage', data) 
+    console.log('An user has connect!!!', socket.id)
+
+    socket.on('create auction', (data) => {
+        if (data) {
+            createAuct(data)
+                .then(resData => {
+                    if(resData) {
+                        io.emit('receive auction', { price: data.price, user: data.user, currentList: data.playingList })
+                    }
+                })
+                .catch(err => {
+                    console.log('co loi')
+                })
+        }
+    })
+
+    socket.on('disconnected', () => {
+        console.log('An user had left!!!')
     })
 })
 
