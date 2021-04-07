@@ -14,6 +14,7 @@ const Account = new Schema({
   phone: { type: String, default: ''},
   playing: { type: Array, default: []},
   won: { type: Array, default: []},
+  notif: { type: Array, default: []},
   slug: {type: String, minLength: 1}
 })
 

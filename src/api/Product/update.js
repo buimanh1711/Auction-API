@@ -14,13 +14,16 @@ const update = (req, res, next) => {
   }
 
   const newProduct = {
-      title: data.title,
-      description: data.shortDesc,
+      name: data.name,
       content: data.content,
       image: _path || data.image,
       slug: data.slug,
       category: categoryId,
       priceStep: data.priceStep,
+      minPrice: data.minPrice,
+      quickPrice: data.quickPrice,
+      producer: data.producer,
+      time: data.time,
       source: data.source
   }
 

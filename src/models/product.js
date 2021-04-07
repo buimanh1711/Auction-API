@@ -14,6 +14,7 @@ const Product = new Schema({
   category: { type: String, ref: 'category' },
   producer: { type: String, ref: 'producer'},
   winner: { type: String, ref: 'account'},
+  price: { type: Number, default: 0},
   playingList: { type: Array, default: []},
   sold: { type: Boolean, default: false},
   slug: { type: String, maxLength: 255 },

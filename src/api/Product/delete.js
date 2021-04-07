@@ -1,10 +1,10 @@
 const ProductModel = require('../../models/product')
 const deleteProduct = (req, res, next) => {
-  const { userInfo } = req
+  const { userInfo, userRole } = req
   const { sellerId } = req.body
   const { productId } = req.params
-  console.log(userInfo)
-  if (userInfo._id === sellerId) {
+
+  if (userInfo._id === sellerId || userRole === 'admin') {
       ProductModel.deleteOne({
           _id: productId
       })
