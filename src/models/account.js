@@ -15,7 +15,8 @@ const Account = new Schema({
   playing: { type: Array, default: []},
   won: { type: Array, default: []},
   notif: { type: Array, default: []},
-  slug: {type: String, minLength: 1}
+  slug: {type: String, minLength: 1},
+  block: { type: Boolean, default: false}
 })
 
 module.exports = mongoose.model('account', Account)

@@ -1,16 +1,25 @@
 const AccountModel = require('../../models/account')
 
 const getAll = (req, res, next) => {
-  AccountModel.find({})
-    .then(data => {
-      if (data && data.length > 0) {
-        req.afterFilter = data
-        next()
-      }
-    })
-    .catch(err => {
-      return res.send(err)
-    })
+  const { userRole } = req
+  if(userRole === 'admin') {
+    AccountModel.find({})
+      .then(data => {
+        if (data && data.length > 0) {
+          res.json({
+            status: true,
+            users: data
+          })
+        }
+      })
+      .catch(err => {
+        req.err = 'Loi lay tat ca user'
+        return next('last')
+      })
+  } else {
+    req.err = 'khong co quyen'
+    return next('last')
+  }
 }
 
-module.exports = getALl
+module.exports = getAll

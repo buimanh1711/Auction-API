@@ -9,6 +9,12 @@ const search = (req, res, next) => {
         let afterFilter = data
 
         const { slug } = req.params
+        if(slug && slug.trim() === '') {
+          return res.json({
+            status: false
+          })
+        }
+        
         const query = slug.split('-')
 
         const lib = afterFilter.map(item => ({

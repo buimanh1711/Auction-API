@@ -1,5 +1,6 @@
 const getPage = require('../../utils/getPage')
 const ProductModel = require('../../models/product')
+const jwt = require('jsonwebtoken')
 const PAGE_SIZE = 8
 
 const getAll = (req, res, next) => {
@@ -11,7 +12,7 @@ const getAll = (req, res, next) => {
   const query = {}
   let sort = '-createDate'
   let isSeller = false
-
+  
   if (category) {
       query.category = category
   }
@@ -21,8 +22,10 @@ const getAll = (req, res, next) => {
   if (seller) {
       query.seller = seller
       let token = req.cookies.userToken
+
       if (token) {
           let result = jwt.verify(token, 'mb1o4er')
+          console.log(result)
           if (result && result._id === seller) {
               isSeller = true
           }
@@ -30,6 +33,7 @@ const getAll = (req, res, next) => {
           req.err = 'loitoken'
           next('last')
       }
+
   } else if (seller) {
       query.seller = seller
   }
