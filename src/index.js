@@ -29,46 +29,59 @@ app.get('/', (req, res) => {
 
 const check = () => {
     setTimeout(() => {
-        ProductModel.find({})
+        ProductModel.find({
+            sold: false,
+            passed: true
+        })
             .then(resData => {
+                var promises = []
                 if (resData && resData.length > 0) {
                     resData.forEach(item => {
                         const future = new Date(item.time)
                         const now = new Date()
                         var count = (future - now) / 1000
                         count = parseInt(count)
-
                         if (count <= 0 && item.playingList.length > 0) {
-                            getProduct(item.playingList[0]._id, item.playingList[0], item.playingList[0].price, item.seller)
-                                .then(res => {
-                                    if (res) {
-                                        const notif = `Sản phẩm ${item.name} của bạn đã được bán. Hãy liên lạc với người mua để giao dịch.`
-                                        notify(notif)
-                                            .then(res => {
-                                                if (res) {
-                                                    io.emit('get product notify', { name: item.name, sellerId: item.seller, userInfo: item.playingList[0], price: item.playingList[0].price })
-                                                } else {
-                                                    io.emit('get product notify', { name: item.name, userInfo: item.playingList[0], sellerId: item.seller, price: item.playingList[0].price, err: 'fail' })
-                                                }
-                                            })
-
-                                        const notif2 = `Bạn đã mua sản phẩm ${item.name} thành công với giá ${item.playingList[0].price}, vui lòng đợi người bán liên lạc để giao dịch.`
-                                        notify2(notif2, item.playingList[0]._id)
-                                            .then(res => {
-                                                if (res) {
-                                                    io.emit('get product notify2', { name: item.name, sellerId: item.seller, userInfo: item.playingList[0], price: item.playingList[0].price, notif: notif2 })
-                                                } else {
-                                                    io.emit('get product notify2', { name: item.name, userInfo: item.playingList[0], sellerId: item.seller, price: item.playingList[0].price, err: 'fail' })
-                                                }
-                                            })
-                                    }
-                                })
+                            const winnerInfo = item.playingList[0]
+                            promises.push(
+                                getProduct(item._id, winnerInfo, winnerInfo.price, item.seller)
+                                    .then(res => {
+                                        console.log(item.name)
+                                        if (res) {
+                                            const notif = `Sản phẩm ${item.name} của bạn đã được bán. Hãy liên lạc với người mua để giao dịch.`
+                                            notify(notif)
+                                                .then(res => {
+                                                    if (res) {
+                                                        io.emit('get product notify', { name: item.name, sellerId: item.seller, userInfo: winnerInfo, price: winnerInfo.price, newProduct: item })
+                                                    } else {
+                                                        io.emit('get product notify', { name: item.name, userInfo: winnerInfo, sellerId: item.seller, price: winnerInfo.price, newProduct: item, err: 'fail' })
+                                                    }
+                                                })
+    
+                                            const notif2 = `Bạn đã mua sản phẩm ${item.name} thành công với giá ${winnerInfo.price}, vui lòng đợi người bán liên lạc để giao dịch.`
+                                            notify2(notif2, winnerInfo._id)
+                                                .then(res => {
+                                                    if (res) {
+                                                        io.emit('get product notify2', { name: item.name, sellerId: item.seller, userInfo: winnerInfo, price: winnerInfo.price, notif: notif2 })
+                                                    } else {
+                                                        io.emit('get product notify2', { name: item.name, userInfo: winnerInfo, sellerId: item.seller, price: winnerInfo.price, err: 'fail' })
+                                                    }
+                                                })
+                                        }
+                                    })
+                            )
                         }
                     })
+
+                    Promise.all(promises)
+                        .then(() => {
+                            console.log('checking')
+                            check()
+                        })
                 }
             })
 
-    }, 1000 * 20)
+    }, 1000 * 5)
 }
 
 check()

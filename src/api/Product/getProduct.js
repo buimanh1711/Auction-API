@@ -2,9 +2,9 @@ const ProductModel = require('../../models/product')
 
 const getProduct = (productId, userInfo, price) => {
   return ProductModel.updateOne({
-    _id: productId
+    _id: productId,
   }, {
-    winner: userInfo._id,
+    winner: userInfo._id || userInfo.id,
     sold: true,
     price: price
   })
