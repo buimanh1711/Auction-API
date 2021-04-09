@@ -4,6 +4,7 @@ const toSlug = require('../../utils/toSlug')
 const getPage = require('../../utils/getPage')
 const jwt = require('jsonwebtoken')
 const fs = require('fs')
+const product = require('../../models/product')
 
 const create = (req, res, next) => {
   const data = req.body || {}
@@ -15,36 +16,43 @@ const create = (req, res, next) => {
       image: _path,
       time: data.time,
       minPrice: data.minPrice,
-      quickPrice: data.quickPrice,
+      quickPrice: data.quickPrice || 0,
       priceStep: data.priceStep,
       producer: data.producer,
       seller: userInfo._id,
       slug: data.slug,
       category: categoryId,
   }
-
-  ProductModel.findOne({ slug: newProduct.slug })
-      .then(product => {
-          if (product) {
-              req.err = 'Post existed'
-              return next('last')
-          } else {
-              const newProductIns = new ProductModel(newProduct)
-
-              newProductIns.save(err => {
-                  if (err !== null) {
-                      console.log(err)
-                      req.err = 'can not save product'
-                      return next('last')
-                  } else {
-                      res.json({
-                          status: true,
-                          message: 'tao post tahnhcong'
-                      })
-                  }
-              })
-          }
+  if(newProduct.name && newProduct.time && newProduct.minPrice && newProduct.priceStep && newProduct.category ) {
+      ProductModel.findOne({ slug: newProduct.slug })
+          .then(product => {
+              if (product) {
+                  req.err = 'Post existed'
+                  return next('last')
+              } else {
+                  const newProductIns = new ProductModel(newProduct)
+    
+                  newProductIns.save(err => {
+                      if (err !== null) {
+                          console.log(err)
+                          req.err = 'can not save product'
+                          return next('last')
+                      } else {
+                          res.json({
+                              status: true,
+                              message: 'tao post tahnhcong'
+                          })
+                      }
+                  })
+              }
+          })
+  } else {
+      res.json({
+          status: true,
+          data: newProduct,
+          message: 'Nhập thiếu thông tin'
       })
+  }
 
 }
 

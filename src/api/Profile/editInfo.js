@@ -19,6 +19,9 @@ const editInfo = (req, res, next) => {
     if(data.phone && data.phone.length > 0) {
       newData.phone = data.phone
     }
+    if(data.email && data.email.length > 0) {
+      newData.email = data.email
+    }
 
     let newToken
     if (oldPass) {

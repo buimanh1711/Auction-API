@@ -9,7 +9,7 @@ const createAuct = (data) => {
     { 
       minPrice: data.price,
       $push: {
-        playingList: { firstName: user.firstName, lastName: user.lastName, _id: user.id, price: data.price, time: Date.now() }
+        playingList: { ...user, price: data.price, time: Date.now() }
       }
     }
   )

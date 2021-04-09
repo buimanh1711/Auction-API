@@ -4,8 +4,8 @@ const Schema = mongoose.Schema
 const Product = new Schema({
   name: { type: String, maxLength: 255 },
   image: { type: String, default: '/images/default_img.png'},
-  minPrice: { type: Number, default: 1},
-  quickPrice: { type: Number, default: 1},
+  minPrice: { type: Number, default: 0},
+  quickPrice: { type: Number, default: 0},
   priceStep: { type: Number, default: 1000 },
   content: { type: String, default: '' },
   time: { type: Date },

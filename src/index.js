@@ -10,6 +10,7 @@ const createAuct = require('./api/Product/createAuct')
 const notify = require('./api/Account/notify')
 const notify2 = require('./api/Account/notify2')
 const getProduct = require('./api/Product/getProduct')
+const ProductModel = require('./models/product')
 
 const io = require('socket.io')(http, {
     cors: {
@@ -25,6 +26,53 @@ db.connect()
 app.get('/', (req, res) => {
     res.send('hello')
 })
+
+const check = () => {
+    setTimeout(() => {
+        ProductModel.find({})
+            .then(resData => {
+                if (resData && resData.length > 0) {
+                    resData.forEach(item => {
+                        const future = new Date(item.time)
+                        const now = new Date()
+                        var count = (future - now) / 1000
+                        count = parseInt(count)
+
+                        if (count <= 0 && item.playingList.length > 0) {
+                            getProduct(item.playingList[0]._id, item.playingList[0], item.playingList[0].price, item.seller)
+                                .then(res => {
+                                    if (res) {
+                                        const notif = `Sản phẩm ${item.name} của bạn đã được bán. Hãy liên lạc với người mua để giao dịch.`
+                                        notify(notif)
+                                            .then(res => {
+                                                if (res) {
+                                                    io.emit('get product notify', { name: item.name, sellerId: item.seller, userInfo: item.playingList[0], price: item.playingList[0].price })
+                                                } else {
+                                                    io.emit('get product notify', { name: item.name, userInfo: item.playingList[0], sellerId: item.seller, price: item.playingList[0].price, err: 'fail' })
+                                                }
+                                            })
+
+                                        const notif2 = `Bạn đã mua sản phẩm ${item.name} thành công với giá ${item.playingList[0].price}, vui lòng đợi người bán liên lạc để giao dịch.`
+                                        notify2(notif2, item.playingList[0]._id)
+                                            .then(res => {
+                                                if (res) {
+                                                    io.emit('get product notify2', { name: item.name, sellerId: item.seller, userInfo: item.playingList[0], price: item.playingList[0].price, notif: notif2 })
+                                                } else {
+                                                    io.emit('get product notify2', { name: item.name, userInfo: item.playingList[0], sellerId: item.seller, price: item.playingList[0].price, err: 'fail' })
+                                                }
+                                            })
+                                    }
+                                    check()
+                                })
+                        }
+                    })
+                }
+            })
+
+    }, 1000 * 20)
+}
+
+check()
 
 io.on('connection', (socket) => {
     console.log('An user has connect!!!', socket.id)
@@ -91,7 +139,7 @@ io.on('connection', (socket) => {
     })
 
     socket.on('user create product', data => {
-        io.emit('user send product', {data})
+        io.emit('user send product', { data })
     })
 
     socket.on('disconnected', () => {

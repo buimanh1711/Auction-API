@@ -4,7 +4,7 @@ const getProduct = (productId, userInfo, price) => {
   return ProductModel.updateOne({
     _id: productId
   }, {
-    winner: userInfo.id,
+    winner: userInfo._id,
     sold: true,
     price: price
   })
