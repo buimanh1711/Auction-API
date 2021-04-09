@@ -46,7 +46,6 @@ const check = () => {
                             promises.push(
                                 getProduct(item._id, winnerInfo, winnerInfo.price, item.seller)
                                     .then(res => {
-                                        console.log(item.name)
                                         if (res) {
                                             const notif = `Sản phẩm ${item.name} của bạn đã được bán. Hãy liên lạc với người mua để giao dịch.`
                                             notify(notif)
@@ -98,7 +97,7 @@ io.on('connection', (socket) => {
                     }
                 })
                 .catch(err => {
-                    console.log('co loi')
+                    console.log('Error 100/index')
                 })
         }
     })

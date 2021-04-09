@@ -9,7 +9,6 @@ const passProduct = (req, res, next) => {
       _id: productId
     }, { passed: true })
       .then(resData => {
-        console.log(resData)
         if(resData) {
           res.json({
             status: true

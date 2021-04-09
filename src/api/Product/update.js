@@ -37,10 +37,10 @@ const update = (req, res, next) => {
           if (resData) {
               if(_path && data.oldFile && data.oldFile !== _path && data.oldFile !== 'default_image.png' && data.oldFile !== 'user_default.jpg') {
                   try {
-                      console.log('thanh cong')
                       fs.unlinkSync(`${__dirname}../../../../public/upload/${data.oldFile}`)
                   } catch (err) {
-                      console.log(err)
+                      req.err = 'Error_42/update'
+                      next('last')
                   }
               }
               res.json({

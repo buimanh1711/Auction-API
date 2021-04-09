@@ -1,4 +1,5 @@
 const AccountModel = require('../../models/account')
+const jwt = require('jsonwebtoken')
 
 const editInfo = (req, res, next) => {
   const { userInfo } = req

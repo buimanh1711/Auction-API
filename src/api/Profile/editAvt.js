@@ -23,10 +23,10 @@ const editAvt = (req, res, next) => {
       if (resData) {
         if (data.oldFile && data.oldFile !== path && data.oldFile !== 'default_image.png' && data.oldFile !== 'user_default.jpg') {
           try {
-            console.log('thanh cong')
             fs.unlinkSync(`${__dirname}../../../../public/upload/${data.oldFile}`)
           } catch (err) {
-            console.log(err)
+            req.err = 'Error_28/editAvt'
+            next('last')
           }
         }
         res.json({

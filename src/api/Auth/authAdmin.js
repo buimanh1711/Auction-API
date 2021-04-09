@@ -1,6 +1,5 @@
 const checkAdmin = (req, res, next) => {
   const { userRole } = req
-  console.log(userRole)
 
   if(userRole === 'admin') {
     res.json({

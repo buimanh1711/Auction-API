@@ -25,7 +25,6 @@ const getAll = (req, res, next) => {
 
       if (token) {
           let result = jwt.verify(token, 'mb1o4er')
-          console.log(result)
           if (result && result._id === seller) {
               isSeller = true
           }

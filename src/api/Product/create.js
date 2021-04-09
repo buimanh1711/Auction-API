@@ -34,7 +34,6 @@ const create = (req, res, next) => {
     
                   newProductIns.save(err => {
                       if (err !== null) {
-                          console.log(err)
                           req.err = 'can not save product'
                           return next('last')
                       } else {
