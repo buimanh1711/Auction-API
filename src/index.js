@@ -8,6 +8,7 @@ const route = require('./routes')
 const errHandle = require('./middleware/errHandle')
 const createAuct = require('./api/Product/createAuct')
 const notify = require('./api/Account/notify')
+const notify2 = require('./api/Account/notify2')
 const getProduct = require('./api/Product/getProduct')
 
 const io = require('socket.io')(http, {
@@ -75,8 +76,22 @@ io.on('connection', (socket) => {
                                 io.emit('get product notify', { name, userInfo, sellerId, price, newProduct: product, err: 'fail' })
                             }
                         })
+
+                    const notif2 = `Bạn đã mua sản phẩm ${name} thành công với giá ${price}, vui lòng đợi người bán liên lạc để giao dịch.`
+                    notify2(notif2, userInfo.id)
+                        .then(res => {
+                            if (res) {
+                                io.emit('get product notify2', { name, sellerId, userInfo, price, newProduct: product, notif: notif2 })
+                            } else {
+                                io.emit('get product notify2', { name, userInfo, sellerId, price, newProduct: product, err: 'fail' })
+                            }
+                        })
                 }
             })
+    })
+
+    socket.on('user create product', data => {
+        io.emit('user send product', {data})
     })
 
     socket.on('disconnected', () => {
