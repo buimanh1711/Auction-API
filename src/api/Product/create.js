@@ -27,19 +27,19 @@ const create = (req, res, next) => {
       ProductModel.findOne({ slug: newProduct.slug })
           .then(product => {
               if (product) {
-                  req.err = 'Post existed'
+                  req.err = 'Tên sản phẩm đã tồn tại'
                   return next('last')
               } else {
                   const newProductIns = new ProductModel(newProduct)
     
                   newProductIns.save(err => {
                       if (err !== null) {
-                          req.err = 'can not save product'
+                          req.err = 'Không thể lưu sản phẩm'
                           return next('last')
                       } else {
                           res.json({
                               status: true,
-                              message: 'tao post tahnhcong'
+                              message: 'Tạo sản phẩm thành công'
                           })
                       }
                   })
