@@ -26,8 +26,9 @@ const preHandle = (req, res, next) => {
       path = file.name
       req._path = path
       file.mv(`${__dirname}../../../../public/upload/${path}`, err => {
+          console.log(`${__dirname}../../../../public/upload/${path}`)
           if (err) {
-              req.err = 'upload error'
+              req.err = 'Lỗi upload'
               return next('last')
           } else {
               req.oldFile = data.oldFile

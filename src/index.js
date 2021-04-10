@@ -57,7 +57,7 @@ const check = () => {
                                                     }
                                                 })
     
-                                            const notif2 = `Bạn đã mua sản phẩm ${item.name} thành công với giá ${winnerInfo.price}, vui lòng đợi người bán liên lạc để giao dịch.`
+                                            const notif2 = `Bạn đã mua sản phẩm ${item.name} thành công với giá ${winnerInfo.price}đ, vui lòng đợi người bán liên lạc để giao dịch.`
                                             notify2(notif2, winnerInfo._id)
                                                 .then(res => {
                                                     if (res) {
@@ -77,6 +77,10 @@ const check = () => {
                             console.log('checking')
                             check()
                         })
+                        .catch((err) => console.log(err))
+                } else {
+                    console.log('all done')
+                    check()
                 }
             })
 
@@ -136,7 +140,7 @@ io.on('connection', (socket) => {
                             }
                         })
 
-                    const notif2 = `Bạn đã mua sản phẩm ${name} thành công với giá ${price}, vui lòng đợi người bán liên lạc để giao dịch.`
+                    const notif2 = `Bạn đã mua sản phẩm ${name} thành công với giá ${price}đ, vui lòng đợi người bán liên lạc để giao dịch.`
                     notify2(notif2, userInfo.id)
                         .then(res => {
                             if (res) {
