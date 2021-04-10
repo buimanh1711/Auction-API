@@ -8,16 +8,21 @@ const getOne = (req, res, next) => {
     _id: userId
   })
     .then(resData => {
-      let official = false
-
-      if (userId === userInfo._id) {
-        official = true
+      if(resData) {
+        let official = false
+  
+        if (userId === userInfo._id) {
+          official = true
+        }
+        res.json({
+          status: true,
+          official: official,
+          userData: resData
+        })
+      } else {
+        req.err = 'Không tìm thấy user'
+        next('last')
       }
-      res.json({
-        status: true,
-        official: official,
-        userData: resData
-      })
     })
     .catch(err => {
       req.err = 'loi profile'
