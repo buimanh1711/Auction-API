@@ -58,7 +58,7 @@ const check = () => {
                                                 })
     
                                             const notif2 = `Bạn đã mua sản phẩm ${item.name} thành công với giá ${winnerInfo.price}đ, vui lòng đợi người bán liên lạc để giao dịch.`
-                                            notify2(notif2, winnerInfo._id)
+                                            notify2(notif2, winnerInfo.id)
                                                 .then(res => {
                                                     if (res) {
                                                         io.emit('get product notify2', { name: item.name, sellerId: item.seller, userInfo: winnerInfo, price: winnerInfo.price, notif: notif2 })
